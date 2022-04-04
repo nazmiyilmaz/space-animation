@@ -1,0 +1,91 @@
+@import './functions.scss';
+
+html,
+body {
+   width: 100%;
+   height: 100%;
+   margin: 0;
+}
+
+.stars-outer {
+   width: 100%;
+   height: 100%;
+   background: rgb(0, 0, 0);
+   background: radial-gradient(
+      circle,
+      rgba(0, 0, 0, 1) 0%,
+      rgb(0, 10, 24) 100%
+   );
+}
+
+#stars-sky {
+   width: 100%;
+   height: 100%;
+   position: relative;
+   overflow: hidden;
+}
+
+.stars-star {
+   opacity: 0;
+   transform-origin: 0, 0;
+   position: absolute;
+   background: white;
+   box-shadow: 0px 0px 20px 0px rgb(255, 255, 255);
+   border-radius: 100%;
+   animation-timing-function: linear, linear !important;
+   animation-iteration-count: infinite, infinite !important;
+   animation-delay: -30s, -30s !important;
+}
+
+.stars-size-1 {
+   width: 0.5px;
+   height: 0.5px;
+}
+
+.stars-size-2 {
+   width: 1px;
+   height: 1px;
+}
+
+.stars-size-3 {
+   width: 2px;
+   height: 2px;
+}
+
+@for $i from 1 to 360 {
+   $t: random(40000) + 5000;
+   $angle: $i - reminder($i, 4);
+   .stars-axis-#{$i} {
+      animation: anim#{$angle} #{$t}ms, fade#{random(10)} #{$t}ms;
+   }
+}
+
+// FADE EFFECT
+@for $i from 1 to 11 {
+   $start: random(20);
+   $end: $start + 10;
+   @keyframes fade#{$i} {
+      #{$start + '%'} {
+         opacity: 0;
+      }
+      #{$end + '%'} {
+         opacity: 1;
+      }
+      100% {
+         opacity: 1;
+      }
+   }
+}
+
+// MOVE ANIMATION
+@for $i from 1 to 91 {
+   $a: $i * 4;
+   @keyframes anim#{$a} {
+      $angle: $pi * 2 * ($a / 360);
+      $y: 80 * sin($angle);
+      $x: 80 * cos($angle);
+      100% {
+         transform: translate(#{$x}vw, #{$y}vh);
+      }
+   }
+}
